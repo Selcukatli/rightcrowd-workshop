@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+*.env.local
+
+# Presentations - keep source PDFs but ignore large generated assets if needed
+# presentations/*/resources/  # Uncomment to ignore extracted images
