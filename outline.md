@@ -2,29 +2,50 @@
 
 ## Building with Multi-Agent Systems & Context Engineering
 
+**Selcuk Atli**
+selcuk.atli@gmail.com
+
 ---
 
 ## Agenda
 
-- Introduction
+- My AI Native Journey & Background
 - The AI Development Spectrum
 - Tools & Environment Setup
-- Working with Agents (Claude Code Deep Dive)
-- Context Engineering
-- MCP Servers & Integrations
+- Claude Code Deep Dive
+- Context Engineering (CLAUDE.md, Skills, Docs)
+- MCP Servers & Browser Automation
 - Multi-Agent & Parallel Workflows
-- Advanced Techniques
+- Staying in Flow (Voice, Visual Feedback)
+- Stack & Best Practices
 - Live Demo: Building a Todo App
 
 ---
 
-## Introduction
+## My AI Native Journey
 
-- Background & credentials
-- AI Native Coding for 18+ months
-- Early adopter of Cursor, Claude Code since launch
-- 90%+ of code is AI generated
-- Can ship 1-2 products per month
+**AI Native Coding for 18+ months**
+Early adopter of Cursor, Claude Code since March 2024
+
+**90%+ of our code is AI generated**
+Leveraging AI throughout the entire development lifecycle - from initial concept to final review
+
+**Ship 1-2 products per month**
+Rapidly delivering new products by leveraging AI-assisted development for accelerated iteration
+
+---
+
+## Background
+
+**Fulbright Scholar** - BS and MS in Computer Science
+
+**SocialWire** - Advertising platform acquired by Rakuten
+
+**Boostable** - Y Combinator-backed advertising tool for marketplace sellers, acquired by Metric Collective
+
+**Bunch** - Group video chat app for multiplayer games
+- 10+ million downloads
+- Raised $35M+ from General Catalyst, EA, Take-Two, Ubisoft, Tencent, Riot Games, Supercell
 
 ---
 
@@ -94,27 +115,25 @@ This integrates AI agents directly into your terminal workflow.
 
 ---
 
-## Model Selection Strategy
+## Environment Setup with Agents
 
-| Model | Strength | Use Case |
-|-------|----------|----------|
-| Heavy (Opus, o1) | Deep reasoning | Complex tasks, architecture, planning |
-| Light (Sonnet, Flash) | Fast iterations | Quick refactors, small fixes |
-| Gemini | Visual understanding | UI/design work |
+Let agents handle the tedious setup work:
 
-**Default Strategy**: Start light; escalate only when blocked or quality demands it.
+**Project Bootstrapping**
+- Agents scaffold new projects (React, Next.js, Expo, etc.)
+- Handle initial tooling and configurations automatically
 
----
+**Dependency Management**
+- Install dependencies and resolve version conflicts
+- No more "dependency hell" - agents figure it out
 
-## Asking the Model to Think
+**Automated Troubleshooting**
+- Agent reads error logs and fixes PATH issues, missing deps, misconfigurations
+- Faster than manual debugging
 
-When you need deeper reasoning, add cues:
-
-- `think` - Normal depth reasoning
-- `think more` - Slower, more detailed steps
-- `ultrathink` - Maximum reasoning, high token cost
-
-Use for design decisions, migrations, or root-cause analysis.
+**Testing Setup**
+- Set up testing frameworks (Jest, Playwright, Vitest) from scratch
+- Run tests and interpret failures
 
 ---
 
@@ -133,6 +152,17 @@ claude
 
 ---
 
+## Accessing Claude Code
+
+Three ways to use Claude Code:
+
+1. **Terminal of your choice** - Run `claude` in any terminal (Warp, iTerm, etc.)
+2. **VS Code / Cursor Extension** - Integrated IDE experience
+3. **Claude Code App** - Desktop app for local or remote access via GitHub
+
+
+---
+
 ## How Agents Work
 
 Agents work through your code like a developer:
@@ -143,17 +173,6 @@ Agents work through your code like a developer:
 
 ---
 
-## Plan Mode vs Agent Mode
-
-| Plan Mode | Agent Mode |
-|-----------|------------|
-| Think first, execute later | Autonomous execution |
-| Review before changes | Changes happen in real-time |
-| Complex/risky changes | Well-defined tasks |
-
-**Shift + Tab** to switch modes. When unsure → Start with Plan Mode.
-
----
 
 ## Organize Code for Agents
 
@@ -177,6 +196,18 @@ docs/
 ```
 
 This gives agents reliable context, just like documentation for engineers.
+
+---
+
+## Plan Mode vs Agent Mode
+
+| Plan Mode | Agent Mode |
+|-----------|------------|
+| Think first, execute later | Autonomous execution |
+| Review before changes | Changes happen in real-time |
+| Complex/risky changes | Well-defined tasks |
+
+**Shift + Tab** to switch modes. When unsure → Start with Plan Mode.
 
 ---
 
@@ -204,6 +235,35 @@ The agent operates within 200k tokens. Manage it:
 
 ---
 
+## Recovering from Mistakes
+
+When the agent goes off track, you can rewind:
+
+**Esc Esc (double-tap)** - Rewind conversation to a previous point
+- Clears subsequent messages from history
+- Note: Does NOT undo file changes (use git for that)
+
+**Other useful shortcuts:**
+- `Ctrl+C` - Cancel current generation
+- `Ctrl+L` - Clear terminal screen (keeps conversation)
+- `Up/Down` - Navigate through previous inputs
+
+*Don't let a bad response derail your session - just rewind and try again*
+
+---
+
+## Asking the Model to Think
+
+When you need deeper reasoning, add cues:
+
+- `think` - Normal depth reasoning
+- `think more` - Slower, more detailed steps
+- `ultrathink` - Maximum reasoning, high token cost
+
+Use for design decisions, migrations, or root-cause analysis.
+
+---
+
 ## Custom Commands (Slash Commands)
 
 Store commands in `.claude/commands/*.md`:
@@ -225,11 +285,33 @@ Specialized subagents for different parts of the system:
 - **Backend Agent** - APIs, databases, server logic
 - **QA Agent** - Testing, quality assurance, bug detection
 
-```bash
-claude start [agent_name]
-```
+**How to use:**
+1. Create subagent files in `.claude/agents/` (markdown with name, description, tools)
+2. Invoke by mentioning in your prompt:
+   - "Use the test-runner subagent to fix failing tests"
+   - "Have the code-reviewer subagent look at my changes"
+3. Or use `/agents` command interactively
 
-Configs stored in `.claude/agents/`
+---
+
+## Subagent Example: Extract Pattern
+
+I built an `extract-pattern` subagent to search GitHub repos for implementation patterns.
+
+**The problem:** Searching repos dumps raw results into main context, blowing up tokens
+
+**Why a subagent?**
+- **Isolated context** - Heavy search operations happen in subagent
+- **Token efficiency** - ~8x cleaner context vs raw search results
+- **Specialized prompts** - Optimized for code pattern extraction
+- **Cost savings** - Can use lighter models (Sonnet) for research
+
+**Use cases:**
+- "How did we implement auth in project X?"
+- "Find our Stripe checkout integration pattern"
+- Onboarding new team members to existing patterns
+
+**Resource:** [github.com/hypersocialinc/claude-code-agents](https://github.com/hypersocialinc/claude-code-agents)
 
 ---
 
@@ -244,11 +326,17 @@ Hooks trigger follow-up actions when tasks complete:
 
 Examples: run tests, send notifications, auto-review code.
 
+Configure via `/hooks` or in `.claude/settings.json`
+
 ---
 
 ## Skills: Progressive Context Loading
 
 Skills are markdown files that teach Claude domain-specific knowledge:
+
+**Where to add:**
+- Store in `.claude/skills/` folder
+- Structure: markdown with description, instructions, and optional resources
 
 **When to use Skills:**
 - Complex multi-step workflows
@@ -256,10 +344,76 @@ Skills are markdown files that teach Claude domain-specific knowledge:
 - Team conventions and best practices
 - Tool-specific patterns
 
+**Skills can include:**
+- Step-by-step instructions
+- Code examples and templates
+- Links to external resources/docs
+- Tool configurations
+
 **Skills vs Commands**: Commands trigger actions; Skills provide knowledge
 **Skills vs Subagents**: Subagents are isolated workers; Skills are shared context
 
 *Skills load progressively - Claude reads them when relevant, not all upfront*
+
+---
+
+## Skills Example: Music Production App
+
+Building a music app with Strudel required extensive domain knowledge:
+
+**The problem:** Too much context would blow up the context window
+- Strudel syntax and API
+- Music theory fundamentals
+- Genre-specific production styles (house, techno, ambient, etc.)
+
+**The solution:** Organized skills by topic
+```
+.claude/skills/
+├── strudel-syntax.md      # Core Strudel patterns & API
+├── music-theory.md        # Scales, chords, progressions
+└── genres/
+    ├── house.md           # House production techniques
+    ├── techno.md          # Techno patterns & sounds
+    └── ambient.md         # Ambient textures & pads
+```
+
+**Result:** Agent picks up only relevant context based on current task
+
+---
+
+## Working with External Documentation
+
+How to give agents the docs they need:
+
+**Copy & Paste Markdown**
+- Many modern tools have "Copy as MD" buttons (Stripe, Vercel, Supabase, etc.)
+- Paste entire doc pages directly into the agent conversation
+- Quick way to give context without leaving your flow
+
+**Use Context7 MCP**
+- Semantic search across library documentation
+- Agent can look up docs on demand without you copying
+- Works with most popular frameworks and tools
+
+**Capture What Works**
+- When you successfully implement something, use `# [remember this]`
+- Save reusable patterns to `docs/rules/` for future use
+- Build your own library of "how we do X" for the agent
+
+---
+
+
+
+## The AI-Native Development Loop
+
+In AI-native development, agents iterate on tasks, guided by human review and feedback. This cycle refines agent performance over time.
+
+**AI Generation** ⚡ → **Human Verification** 💬
+
+- AI agents generate initial solutions or code based on tasks
+- Humans review and validate the agent's output for accuracy
+
+**Your goal: take yourself out of the loop as much as possible**
 
 ---
 
@@ -322,6 +476,95 @@ claude mcp list
 
 ---
 
+## Browser MCP in Claude Code
+
+Give Claude Code the ability to browse and debug web apps:
+
+**Chrome DevTools MCP** (Official from Google)
+- Direct access to Chrome's developer tools
+- Debugging, performance analysis, network inspection
+- Real-time insights into your web app
+- [developer.chrome.com/blog/chrome-devtools-mcp](https://developer.chrome.com/blog/chrome-devtools-mcp)
+
+**Browser MCP** ([browsermcp.io](https://browsermcp.io))
+- Chrome extension for browser automation
+- Uses your real browser profile (stays logged in)
+- Navigate, click, type, fill forms, take screenshots
+
+**Use cases:** Test your app, debug UI issues, automate web tasks, verify deployments
+
+---
+
+## Native Browser in Cursor & Antigravity
+
+Both IDEs have built-in browser capabilities - no MCP installation needed:
+
+**Cursor:**
+- Native browser tool for agents
+- Take screenshots, interact with your running app
+- Visual regression testing built-in
+- Works across web, desktop, and mobile
+
+**Antigravity:**
+- Built-in browser preview and extension
+- Agents interact directly with Chrome
+- Automated UI testing and visual debugging
+- Seamless integration with Gemini
+
+*No extra setup - browser automation works out of the box*
+
+---
+
+
+## Claude Code Plugins & Marketplaces
+
+Extend Claude Code with community plugins - commands, agents, MCP servers, and hooks:
+
+**Adding a marketplace:**
+```bash
+/plugin marketplace add jeremylongshore/claude-code-plugins
+```
+
+**Installing a plugin:**
+```bash
+/plugin install [plugin_name]@[marketplace_name]
+```
+
+**Popular marketplaces:**
+- [claudecodeplugins.io](https://claudecodeplugins.io) - 243+ production-ready plugins
+- [claudecodemarketplace.net](https://claudecodemarketplace.net) - Community submissions
+- [claudecodeplugin.com](https://claudecodeplugin.com) - Curated plugin directory
+
+**For organizations:** Create a private GitHub repo with your plugins and share across teams - standardize workflows, commands, and best practices company-wide
+
+**Why use plugins:** Skip writing boilerplate commands, leverage community best practices
+
+
+---
+
+## Remote & Async Coding
+
+Work on code without your dev machine:
+
+**Claude Code on the Web**
+- Access via claude.ai → select a GitHub repo
+- Agent works in a cloud environment
+- Creates PRs you can review and merge later
+- Great for quick fixes from your phone or tablet
+
+**OpenAI Codex**
+- Similar async workflow via GitHub
+- Queue up tasks, review results later
+- Background execution while you're away
+
+**Use cases:**
+- Fix a bug while commuting
+- Kick off a feature overnight
+- Review and iterate from anywhere
+
+---
+
+
 ## Working on Multiple Features in Parallel
 
 While agents loop (2-15 min), maximize your time:
@@ -330,6 +573,49 @@ While agents loop (2-15 min), maximize your time:
 2. **Separate Projects** - Different repos entirely
 3. **Git Worktrees** - Replicate project to branch, merge when ready
 4. **Conductor.build** - Automates worktrees, parallel agents, AI-assisted merging
+
+---
+
+## Multi-Agent Code Reviews
+
+Use multiple agents to review each other's work before sharing with the team:
+
+**The workflow:**
+1. Claude Code works on a feature branch → creates a PR
+2. Open a new tab with another Claude Code (or Codex)
+3. Have the second agent do a local PR review
+4. Human developer joins the review process
+5. First agent fixes issues based on feedback
+6. PR is ready for team review - already battle-tested
+
+**Tools:**
+- `/review` command for streamlined reviews
+- **CodeRabbit** - AI-powered PR reviews in GitHub/GitLab
+
+**Benefits:**
+- Catch issues before human reviewers see them
+- Different agents catch different things
+- Faster iteration cycles
+- Cleaner PRs = faster team approvals
+
+---
+
+
+## Cursor Agent Mode
+
+- Switch between Agents and Editor mode
+- Multiple parallel threads
+- Background agents work while you code
+- Monitor progress in real-time
+
+---
+
+## Antigravity
+
+- Google's VS Code fork optimized for AI
+- Agents work across workspaces
+- Inbox for agent updates and notifications
+- Deep Gemini integration
 
 ---
 
@@ -343,23 +629,24 @@ While agents loop (2-15 min), maximize your time:
 
 ---
 
-## Agent Views in IDEs
+## Conductor Configuration
 
-**Cursor** - Switch between Agents and Editor mode, multiple parallel threads
+Define your workspace setup in `conductor.json` at repo root:
 
-**Antigravity** - Google's VS Code fork, agents across workspaces, inbox for updates
+```json
+{
+  "scripts": {
+    "setup": "cp ../../.env.local .env.local && cp ../../apps/next/.env.local apps/next/.env.local && npm install && npx convex dev --once",
+    "run": "npm run dev"
+  }
+}
+```
 
-Monitor multiple agents, see progress in real-time.
+**Script types:**
+- **setup** - Runs when workspace is created (copy env vars, install deps, init services)
+- **run** - Starts your dev server in the isolated workspace
 
----
-
-## Code Reviews with Agents
-
-- **Review locally** - Have agents review each other's code
-- **CodeRabbit** - AI-powered PR reviews in GitHub/GitLab
-- `/review` command for streamlined reviews
-
-Agents can review, humans approve.
+*Conductor reads this automatically - agents get fully configured environments*
 
 ---
 
@@ -381,14 +668,51 @@ Agents can review, humans approve.
 
 ---
 
+## Staying in the Flow
+
+Minimize context switching to maximize productivity:
+
+Use your voice and visuals to communicate with agents:
+
+- **Speech-to-text** - Talk to your agent instead of typing
+- **Visual markup** - Show the agent what you mean with screenshots
+
+*Keep your hands on the keyboard, your eyes on the code, and let the agent understand you faster*
+
+---
+
 ## Speech-to-Text for Flow
 
-Integrate speech-to-text to maintain focus:
+**Wispr Flow** (wisprflow.ai) - Best-in-class speech-to-text for developers:
 
-- **Hands-free coding** - Dictate code, commands, comments
-- **Streamlined documentation** - Speak commit messages, task descriptions
-- **Voice-activated commands** - Navigate files, trigger builds
-- **Tool**: Wispr Flow (wisprflow.ai)
+- **Context-aware transcription** - Understands code, technical terms, variable names
+- **Works everywhere** - Any app, any text field, system-wide
+- **Fast and accurate** - Real-time transcription with minimal latency
+- **Privacy-focused** - Processes locally, no cloud dependency
+
+**Use cases:**
+- Dictate prompts to your AI agent
+- Speak commit messages and documentation
+- Voice-control your workflow without leaving the keyboard
+
+---
+
+## Visual Feedback for Agents
+
+Give agents visual context by sharing screenshots and markups:
+
+**The workflow:**
+1. Take a screenshot of the issue (UI bug, design reference, error)
+2. Mark it up with annotations (arrows, circles, text)
+3. Copy to clipboard and paste into Claude Code
+
+**Why it works:**
+- Agents understand visual context instantly
+- No need to describe complex UI issues in words
+- Faster debugging of visual bugs
+- Great for design implementation tasks
+
+**Tools:** Shottr, CleanShot X, or any screenshot tool with markup
 
 ---
 
@@ -396,33 +720,72 @@ Integrate speech-to-text to maintain focus:
 
 | Agent | Strengths | Context Window |
 |-------|-----------|----------------|
-| **Claude Code** | Most feature-rich, subagents, custom commands, robust MCP | 200k tokens |
-| **Codex** | Good alternative, sometimes overthinks | ~1M tokens |
-| **Gemini CLI** | Large context, can integrate as tool | ~1M tokens |
+| **Claude Code** | Most feature-rich, subagents, custom commands, plugins, MCP | 200k tokens |
+| **Codex** | Deep GitHub integration, background tasks, async workflows | Varies by model |
+| **Gemini CLI** | Massive context, multimodal, Google ecosystem integration | 1-2M tokens |
 
 **Tip**: Don't rely on one agent. Switch when stuck.
 
 ---
 
-## Picking the Right Stack
+## Suggested Models based on Use Case
 
-Monorepo > Microservices for small teams with AI agents:
-
-- Reduced coordination costs
-- Simplified CI/CD
-- Full context for agents
-- Faster local development
-- Faster refactoring
+| Model | Use Case |
+|-------|----------|
+| Claude Opus 4.5 | Daily driver |
+| Gemini 3.0 Pro | Great for UI/UX |
+| Cursor Composer 1 | Quick easy tasks |
+| Codex 5.1 | Code Reviews |
 
 ---
 
-## Recommended Stack
+## Why Agents Love Monorepos
 
-- **Next.js** - Web apps, file-based routing, great with AI
-- **Expo** - Cross-platform mobile, unified toolchain
-- **Convex** - Backend + database in monorepo, type-safe
-- **Clerk** - Managed auth, web/mobile SDKs
-- **Vercel AI SDK + BAML** - Streaming, tool calling, structured outputs
+Co-locating code makes agents more effective:
+
+- **Full visibility** - Agent sees frontend, backend, and shared code together
+- **Type safety across boundaries** - Shared types prevent agent mistakes
+- **Single context** - No jumping between repos, stays in context window
+- **Easier refactoring** - Agent can update all references in one pass
+
+*Not saying microservices are bad - just that agents work better with unified codebases*
+
+---
+
+## Our Stack (And Why It's Agent-Friendly)
+
+Tools we use that work great with AI agents:
+
+- **Next.js** - File-based routing = predictable structure agents understand
+- **Expo** - Single codebase for iOS/Android/web = less context switching
+- **Convex** - Backend + DB in same repo, type-safe end-to-end = fewer agent errors
+- **Clerk** - Drop-in auth with clear docs = agents implement it correctly first try
+- **Vercel AI SDK** - Well-documented patterns for streaming, tool calling
+
+*These aren't the only good choices - pick tools with clear conventions and good docs*
+
+---
+
+## Refactoring with AI Agents
+
+Big refactors become practical with AI agents as copilots:
+
+**Systematic Code Changes**
+- Large-scale transformations (API updates, class → function components)
+- Precision across many files simultaneously
+
+**Legacy Cleanup & Modernization**
+- Update dependencies, coding patterns, error handling
+- Bring older codebases up to modern standards
+
+**Database Migrations**
+- Generate and execute complex data migration scripts
+- Schema changes with data integrity checks
+
+**Why agents excel here:**
+- They don't get bored or make typos on repetitive changes
+- Can hold the full context of what needs to change
+- Review the diff, not every line of code
 
 ---
 
@@ -439,53 +802,60 @@ Monorepo > Microservices for small teams with AI agents:
 
 ## Key Takeaways
 
-1. **Don't vibe code, get in the weeds** - Know how agents work internally
-2. **Get out of the agent's way** - Set clear goals, provide context, let them run
-3. **Generate and review code** - Focus on guiding AI, review output
-4. **Organize code for agents** - Clear, modular code with explicit interfaces
-5. **Stay up to date** - The space moves fast
+1. **Context is everything** - CLAUDE.md, skills, and docs folders make or break agent effectiveness
+2. **Get out of the loop** - Set up agents to iterate autonomously, review at checkpoints
+3. **Use multiple agents** - Switch when stuck, use different agents for different tasks
+4. **Stay in flow** - Voice input, visual markup, minimize context switching
+5. **Organize for agents** - Monorepos, clear structure, type-safe boundaries
 
 ---
 
-## Live Demo Overview
+## Live Demo: Building a Todo App
 
-**Building a Todo App**
+**Stack:** Next.js + Convex + Claude Code
 
-- Next.js frontend
-- Convex backend
-- Claude Code with full setup
-- Watch context engineering in action
-
----
-
-## [LIVE DEMO]
-
-Demo Steps:
-1. Initialize Next.js + Convex project
-2. Set up CLAUDE.md and docs/ structure
-3. Plan mode: outline app structure
-4. Agent mode: implement features
-5. Use Context7 MCP for docs lookup
-6. Looping for build fixes
-7. Code review workflow
+**What we'll cover:**
+1. Set up CLAUDE.md and docs/ structure
+2. Plan mode → Agent mode workflow
+3. Context7 MCP for docs lookup
+4. Looping until build passes
+5. Multi-agent code review
+6. Cursor agent view - parallel threads
+7. Conductor.build - isolated git workspaces
 
 ---
 
 ## Resources
 
-- Claude Code documentation
-- MCP server directory
-- Conductor.build
-- Context7
-- Wispr Flow
-- github.com/hypersocialinc/claude-code-agents
+**Agents & Tools:**
+- [Claude Code Docs](https://docs.anthropic.com/claude-code) - Official documentation
+- [Cursor](https://cursor.com) - AI-native IDE
+- [Warp](https://warp.dev) - AI-powered terminal
+- [Codex](https://openai.com/codex) - OpenAI's coding agent
+
+**MCP & Integrations:**
+- [MCP Registry](https://github.com/modelcontextprotocol) - Official MCP servers
+- [Context7](https://context7.com) - Documentation search MCP
+- [Browser MCP](https://browsermcp.io) - Browser automation
+- [Chrome DevTools MCP](https://developer.chrome.com/blog/chrome-devtools-mcp) - Google's official MCP
+
+**Plugins & Extensions:**
+- [claudecodeplugins.io](https://claudecodeplugins.io) - Plugin marketplace
+- [CodeRabbit](https://coderabbit.ai) - AI code reviews
+
+**Productivity:**
+- [Wispr Flow](https://wisprflow.ai) - Speech-to-text for developers
+- [Conductor.build](https://conductor.build) - Parallel agent workspaces
+- [Shottr](https://shottr.cc) - Screenshot markup tool
+
+**My Resources:**
+- [github.com/hypersocialinc/claude-code-agents](https://github.com/hypersocialinc/claude-code-agents) - Custom subagents
 
 ---
 
-## Q&A
+## Q&A & Thank You!
 
 Questions?
 
----
-
-## Thank You!
+**Selcuk Atli**
+selcuk.atli@gmail.com
