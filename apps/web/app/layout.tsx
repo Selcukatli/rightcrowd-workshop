@@ -20,8 +20,41 @@ const tomorrow = Tomorrow({
 });
 
 export const metadata: Metadata = {
-  title: "Hipslides",
-  description: "AI-powered presentation slide generator",
+  title: {
+    default: "Hipslides - Beautiful Presentations in Seconds",
+    template: "%s | Hipslides",
+  },
+  description:
+    "Turn your outline or existing presentation into beautiful slides in seconds. Import a PDF or PowerPoint, or start from scratch—Hipslides handles the design.",
+  keywords: [
+    "presentation generator",
+    "AI slides",
+    "PDF to slides",
+    "PowerPoint import",
+    "slide design",
+    "presentation maker",
+    "Hipslides",
+  ],
+  authors: [{ name: "Hipslides" }],
+  creator: "Hipslides",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Hipslides",
+    title: "Hipslides - Beautiful Presentations in Seconds",
+    description:
+      "Turn your outline or existing presentation into beautiful slides in seconds.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Hipslides - Beautiful Presentations in Seconds",
+    description:
+      "Turn your outline or existing presentation into beautiful slides in seconds.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
