@@ -70,6 +70,7 @@ export default function StylesPage() {
         <Button
           onClick={() => setShowForm(!showForm)}
           className="rounded-full"
+          size="lg"
         >
           {showForm ? "Cancel" : "New Style"}
         </Button>
