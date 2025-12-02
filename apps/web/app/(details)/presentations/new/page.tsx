@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { MarkdownEditor } from "@/components/markdown-editor"; // Import the new component
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -62,7 +62,7 @@ export default function NewPresentationPage() {
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1-1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
           </svg>
           Generate Slides
         </Button>
@@ -146,11 +146,19 @@ export default function NewPresentationPage() {
                   </Button>
               </div>
               
-              <Textarea
-              id="outline"
-              placeholder="Enter your presentation outline using Markdown headings and bullet points."
-              className="font-mono text-sm leading-relaxed flex-1 resize-none p-4 border-none focus-visible:ring-0 px-0 min-h-0"
-            />
+              <div className="flex-1 min-h-0">
+                <MarkdownEditor
+                  defaultValue={`# Presentation Title
+
+## Slide 1 Title
+- Bullet point 1
+- Bullet point 2
+
+## Slide 2 Title
+- Key concept A
+- Key concept B`}
+                />
+              </div>
             
              <div className="mt-2 pt-2 border-t flex-shrink-0">
                  <p className="text-[10px] text-muted-foreground">
