@@ -61,8 +61,8 @@ const mockSlides = [
 
 export default function PresentationPage() {
   return (
-    <div className="p-6 md:p-8">
-      <div className="flex justify-between items-start mb-6">
+    <div className="p-6 md:p-8 max-w-7xl mx-auto">
+      <div className="flex justify-between items-start mb-8">
         <div>
           <Link
             href="/"
@@ -83,7 +83,7 @@ export default function PresentationPage() {
             </svg>
             Back
           </Link>
-          <h1 className="header-display text-xl md:text-2xl mb-1">{mockPresentation.title}</h1>
+          <h1 className="header-display text-2xl md:text-3xl mb-2">{mockPresentation.title}</h1>
           <p className="text-muted-foreground text-sm">{mockPresentation.description}</p>
         </div>
         <div className="flex gap-2">
@@ -136,7 +136,7 @@ export default function PresentationPage() {
         </TabsList>
 
         <TabsContent value="slides" className="mt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {mockSlides.map((slide, index) => (
               <SlideCard key={slide._id} slide={slide} index={index} />
             ))}
@@ -176,7 +176,7 @@ export default function PresentationPage() {
 function SlideCard({ slide, index }: { slide: typeof mockSlides[0]; index: number }) {
   return (
     <div
-      className="group p-4 rounded-xl bg-card transition-all duration-200 shadow-sm shadow-black/[0.03] hover:shadow-xl hover:shadow-black/[0.08] hover:scale-[1.02] animate-fade-in"
+      className="group relative p-5 rounded-xl bg-card border hover:border-primary/50 transition-all duration-300 hover:shadow-md animate-fade-in overflow-hidden cursor-pointer"
       style={{ animationDelay: `${index * 50}ms` }}
     >
       {/* Thumbnail */}
@@ -229,40 +229,6 @@ function SlideCard({ slide, index }: { slide: typeof mockSlides[0]; index: numbe
         <p className="text-muted-foreground text-xs line-clamp-2 whitespace-pre-line">
           {slide.content}
         </p>
-        <div className="flex gap-1.5 pt-1">
-          <Button size="sm" variant="outline" className="h-7 text-xs rounded-full flex-1 gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="10"
-              height="10"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-            </svg>
-            Edit
-          </Button>
-          <Button size="sm" variant="ghost" className="h-7 w-7 p-0 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
-          </Button>
-        </div>
       </div>
     </div>
   );

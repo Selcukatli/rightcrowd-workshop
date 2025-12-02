@@ -184,11 +184,9 @@ export function Sidebar({ defaultCollapsed = false }: SidebarProps) {
     ? pathname.split("/")[2]
     : null;
 
-  // Set initial collapsed state based on prop
+  // Sync collapsed state with route group's default on navigation
   useEffect(() => {
-    if (defaultCollapsed) {
-      setCollapsed(true);
-    }
+    setCollapsed(defaultCollapsed);
   }, [defaultCollapsed, setCollapsed]);
 
   useEffect(() => {
@@ -262,7 +260,11 @@ export function Sidebar({ defaultCollapsed = false }: SidebarProps) {
             {/* Presentations Link */}
             <Link
               href="/"
-              className={`inline-flex items-center ${isCollapsed ? "justify-center w-8 h-8 px-0" : "w-full px-3 py-2"} gap-2.5 rounded-lg transition-all text-muted-foreground hover:text-foreground hover:bg-muted/50 mb-1`}
+              className={`inline-flex items-center ${isCollapsed ? "justify-center w-8 h-8 px-0" : "w-full px-3 py-2"} gap-2.5 rounded-lg transition-all ${
+                pathname === "/"
+                  ? "text-foreground bg-muted/50"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              } mb-1`}
               title={isCollapsed ? "Presentations" : undefined}
             >
               <PresentationsIcon />
