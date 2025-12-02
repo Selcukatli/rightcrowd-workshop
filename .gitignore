@@ -12,7 +12,23 @@ __pycache__/
 
 # Environment
 .env
+.env.local
 *.env.local
+
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
+# Next.js
+.next/
+out/
+
+# BAML test results
+.temp-baml-results/
+# NOTE: baml_client/ is checked into git for consistency (not ignored)
+
+# Convex generated
+convex/_generated/
 
 # Presentations - keep source PDFs but ignore large generated assets if needed
 # presentations/*/resources/  # Uncomment to ignore extracted images

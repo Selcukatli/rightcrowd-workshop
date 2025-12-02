@@ -6,7 +6,8 @@ generator target {
     output_type "typescript"
 
     // Where the generated code will be saved (relative to baml_src/)
-    output_dir "../app"
+    // Output to project root so Convex actions can import it
+    output_dir ".."
 
     // The version of the BAML package you have installed (e.g. same version as your baml-py or @boundaryml/baml).
     // The BAML VSCode extension version should also match this version.

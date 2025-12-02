@@ -1,0 +1,16 @@
+{
+  "name": "hipslides",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "convex:dev": "convex dev",
+    "baml:generate": "baml-cli generate"
+  },
+  "dependencies": {
+    "@boundaryml/baml": "^0.214.0"
+  },
+  "devDependencies": {
+    "convex": "^1.29.3"
+  }
+}
